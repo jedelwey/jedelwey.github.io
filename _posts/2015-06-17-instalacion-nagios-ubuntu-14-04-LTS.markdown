@@ -248,10 +248,10 @@ http://nagios_server_ip/nagios
 {% endhighlight %}
 Because we configured Apache to use htpasswd, you must enter the login credentials that you created earlier. We used "nagiosadmin" as the username:
 
-<img src="../images/autenticacion.PNG"/>
+<img src="{{ site.url }}/images/autenticacion.PNG"/>
 After authenticating, you will be see the default Nagios home page. Click on the Hosts link, in the left navigation bar, to see which hosts Nagios is monitoring:
 
-<img src="../images/nagios-core.PNG"/>
+<img src="{{ site.url }}/images/nagios-core.PNG"/>
 As you can see, Nagios is monitoring only "localhost", or itself.
 
 Let's monitor another host with Nagios!
