@@ -5,57 +5,58 @@ date:   2015-06-18 00:26:00
 categories: nagios
 ---
 
-#Monitor a Host with NRPE
-In this section, we'll show you how to add a new host to Nagios, so it will be monitored. Repeat this section for each server you wish to monitor.
+# Monitorizar un Host o cliente con NRPE
 
-On a server that you want to monitor, update apt-get:
+En este post, expplicaré como añadir un host o cliente a nuestro nagios para ser monitorizado. Solo tienes que repetir este post para cada equipo que se quiera monitorizar. 
+Empezaremos por actualizar la lsita de paquetes:
 
 {% highlight bash %}
 sudo apt-get update
 {% endhighlight %}
 
-Now install Nagios Plugins and NRPE:
+Ahora instalamos Nagios Plugins y NRPE:
 
 {% highlight bash %}
 sudo apt-get install nagios-plugins nagios-nrpe-server
 {% endhighlight %}
 
-Now, let's update the NRPE configuration file. Open it in your favorite editor (we're using vi):
+Después, vamos a modificar el fichero de configuración de NRPE:
 
 {% highlight bash %}
 sudo nano /etc/nagios/nrpe.cfg
 {% endhighlight %}
 
-Find the allowed_hosts directive, and add the private IP address of your Nagios server to the comma-delimited list (substitute it in place of the highlighted example):
+Encontramos la directiva ``allowed_host`` y añadimos la IP privada de nuestro Nagios, con una coma por delante para separar la otra dirección IP.
 
 {% highlight bash %}
 allowed_hosts=127.0.0.1,10.132.224.168
 {% endhighlight %}
 
-Save and exit. This configures NRPE to accept requests from your Nagios server, via its private IP address.
-
-Restart NRPE to put the change into effect:
+Guardamos y cerramos. Esta configuración NRPE para aceptar peticiones NRPE desde tu servidor Nagios, por esa dirección IP.
+Reiniciamos NRPE para que los cambios hagan efecto:
 
 {% highlight bash %}
 sudo service nagios-nrpe-server restart
 {% endhighlight %}
 
-Once you are done installing and configuring NRPE on the hosts that you want to monitor, you will have to add these hosts to your Nagios server configuration before it will start monitoring them.
+Una vez termines de instalar y configurar NRPE en el host o cliente que quieres monitorizar, debes añadir el host o cliente a tu servidor Nagios en los archivos de configuración para que se puedan comenzar a monitorizar.
 
-#Add Host to Nagios Configuration
+Pero en el cliente esto es todo, ya hemos acabado.
 
-On your Nagios server, create a new configuration file for each of the remote hosts that you want to monitor in /usr/local/nagios/etc/servers/. Replace the highlighted word, "yourhost", with the name of your host:
+# Añadir un Host o cliente a nuestra configuración de Nagios
+
+En el servidor nagios crearemos un fichero de configuración por cada host o equipo que queramos monitorizar en ``/usr/local/nagios/etc/servidores`` ``/usr/local/nagios/etc/clientes`` ``/usr/local/nagios/etc/switches`` ``/usr/local/nagios/etc/routers`` ``/usr/local/nagios/etc/firewall``. Recuerda reemplazar ``tuequipo`` por el nombre del host o equipo que quieras monitorizar.
 
 {% highlight bash %}
 sudo nano /usr/local/nagios/etc/servers/yourhost.cfg
 {% endhighlight %}
 
-Add in the following host definition, replacing the host_name value with your remote hostname ("web-1" in the example), the alias value with a description of the host, and the address value with the private IP address of the remote host:
+En el siguiente host o equipo remplazamos el campo ``host_name`` por el nombre de tu equipo o host ("web-1", "fw-1", etc), en el alias ponemos una descripción del equipo que nos permita identificarla y en la dirección ponemos la IP del equipo o host:
 
 {% highlight bash %}
 define host {
         use                             linux-server
-        host_name                       yourhost
+        host_name                       tuequipo
         alias                           My first Apache server
         address                         10.132.234.52
         max_check_attempts              5
@@ -65,22 +66,22 @@ define host {
 }
 {% endhighlight %}
 
-With the configuration file above, Nagios will only monitor if the host is up or down. If this is sufficient for you, save and exit then restart Nagios. If you want to monitor particular services, read on.
+Con la configuración de arriba, Nagios, solo podrá saber si el equipo está encendido o apagado. Si esto es suficiente para ti, guarda, cierra y reincia nagios. Si quieres monitorizar más servicios sigamos añadiendo.
 
-Add any of these service blocks for services you want to monitor. Note that the value of check_command determines what will be monitored, including status threshold values. Here are some examples that you can add to your host's configuration file:
+Añade uno de estos servicios si quieres monitorizarlos. Como puedes comprobar el valor de ``check_command`` determina que es lo que se va a monitorizar, incluyendo los umbrales del servicio. Aquí tienes algunos ejemplos de configuración:
 
 Ping:
 
 {% highlight bash %}
 define service {
         use                             generic-service
-        host_name                       yourhost
+        host_name                       tuequipo
         service_description             PING
         check_command                   check_ping!100.0,20%!500.0,60%
 }
 {% endhighlight %}
 
-SSH (notifications_enabled set to 0 disables notifications for a service):
+SSH (notifications_enabled puesto a 0 desactiva las notificaciones para un servicio):
 
 {% highlight bash %}
 define service {
@@ -92,12 +93,11 @@ define service {
 }
 {% endhighlight %}
 
-If you're not sure what use generic-service means, it is simply inheriting the values of a service template called "generic-service" that is defined by default.
-
-Now save and quit. Reload your Nagios configuration to put any changes into effect:
+Si no estás seguro de lo que quiere monitorizar, use los servicios genericos, simplemente toma los valores de una plantilla ``generic-service`` que se crea por defecto.
+Ahora guardamos y cerramos. Reinciamos nuestro Nagios para que se apliquen los cambios:
 
 {% highlight bash %}
 sudo service nagios reload
 {% endhighlight %}
 
-Once you are done configuring Nagios to monitor all of your remote hosts, you should be set. Be sure to access your Nagios web interface, and check out the Services page to see all of your monitored hosts and services:
+Una vez a configurado Nagios en todos los equipos o host que desee monitorizar todo habrá acabado. Asegurese de tener acceso a su interface web Nagios y chequear la página de servicios para ver todos los equipos y servicios monitorizados.
