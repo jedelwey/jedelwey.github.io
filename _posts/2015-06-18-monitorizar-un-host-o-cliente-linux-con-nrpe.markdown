@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Monitorizar un Host o Cliente con NRPE"
+title:  "Monitorizar un Host o Cliente Linux con NRPE"
 date:   2015-06-18 00:26:00
 categories: nagios
 ---
 
-# Monitorizar un Host o cliente con NRPE
+# Monitorizar un Host o cliente Linux con NRPE
 
-En este post, expplicaré como añadir un host o cliente a nuestro nagios para ser monitorizado. Solo tienes que repetir este post para cada equipo que se quiera monitorizar. 
+En este post, expplicaré como añadir un host o cliente Linux a nuestro nagios para ser monitorizado. Solo tienes que repetir este post para cada equipo que se quiera monitorizar. 
 Empezaremos por actualizar la lsita de paquetes:
 
 {% highlight bash %}
