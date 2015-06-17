@@ -3,7 +3,6 @@ layout: post
 title:  "Instalación de Nagios en Ubuntu 14.04 LTS"
 date:   2015-06-17 21:26:44
 categories: nagios
-image: ../images/nagios-core.PNG
 ---
 
 # Requisitos previos
@@ -248,10 +247,10 @@ http://nagios_server_ip/nagios
 {% endhighlight %}
 Because we configured Apache to use htpasswd, you must enter the login credentials that you created earlier. We used "nagiosadmin" as the username:
 
-<img src="{{ site.url }}/images/autenticacion.PNG"/>
+<img src="https://davidduranmartos.github.io/images/autenticacion.PNG"/>
 After authenticating, you will be see the default Nagios home page. Click on the Hosts link, in the left navigation bar, to see which hosts Nagios is monitoring:
 
-<img src="{{ site.url }}/images/nagios-core.PNG"/>
+<img src="https://davidduranmartos.github.io/images/nagios-core.PNG"/>
 As you can see, Nagios is monitoring only "localhost", or itself.
 
 Let's monitor another host with Nagios!
