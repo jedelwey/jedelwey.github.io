@@ -6,10 +6,8 @@ categories: nagios
 ---
 Empezaremos por lo más básico antes de comenzar a instalar algo en el sistema, actualizarlo, para ello escribiremos:
 {% highlight bash %}
-sudo aptitude update
-{% endhighlight %}
-{% highlight bash %}
-sudo aptitude upgrade
+#sudo aptitude update
+#sudo aptitude upgrade
 {% endhighlight %}
 
 
