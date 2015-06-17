@@ -3,6 +3,7 @@ layout: post
 title:  "Instalación de Nagios en Ubuntu 14.04 LTS"
 date:   2015-06-17 21:26:44
 categories: nagios
+image: ../images/nagios-core.PNG
 ---
 
 # Requisitos previos
@@ -247,28 +248,14 @@ http://nagios_server_ip/nagios
 {% endhighlight %}
 Because we configured Apache to use htpasswd, you must enter the login credentials that you created earlier. We used "nagiosadmin" as the username:
 
-htaccess Authentication Prompt
-
+<img src="../images/autenticacion.PNG"/>
 After authenticating, you will be see the default Nagios home page. Click on the Hosts link, in the left navigation bar, to see which hosts Nagios is monitoring:
 
-Nagios Hosts Page
-
+<img src="../images/nagios-core.PNG"/>
 As you can see, Nagios is monitoring only "localhost", or itself.
 
 Let's monitor another host with Nagios!
 
-
-
-
-
-
-
-
-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll’s dedicated Help repository][jekyll-help].
-
-[jekyll]:           http://jekyllrb.com
-[jekyll-gh]:        https://github.com/jekyll/jekyll
-[jekyll-help]:      https://github.com/jekyll/jekyll-help
 [NRPE]:             http://sourceforge.net/projects/nagios/files/nrpe-2.x/
 [Nagios-plugins]:   http://nagios-plugins.org/download/?C=M;O=D
 [Nagios-core]:      https://www.nagios.org/download/core/
