@@ -12,51 +12,70 @@ Para poder seguir este tutorial, hay que tener unos requisitos básicos.
     - Tener al menos 2 GB de memoria Swap
 
 # Crear el usuario Nagios y su grupo
+
 {% highlight bash %}
 sudo useradd nagios
 sudo groupadd nagcmd
 sudo usermod -a -G nagcmd nagios
 {% endhighlight %}
-# Install Build Dependencies
 
-Because we are building Nagios Core from source, we must install a few development libraries that will allow us to complete the build. While we're at it, we will also install apache2-utils, which will be used to set up the Nagios web interface.
+# Instalar Dependencias de la instalación
 
-First, update your apt-get package lists:
+Debido a que estamos instalando Nagios Core desde el codigo fuente, necesitaremos instalar unas cuantas librerias de desarrollador para completar la instalación, además necesitaremos instalar ``apache2-utils``, con la que se instalará la interfaz web de Nagios.
+Pero primero, hagamos una actualización de la lista de paquetes:
+
 {% highlight bash %}
 sudo apt-get update
 {% endhighlight %}
-Then install the required packages:
+
+Y ahora instalamos los paquetes requeridos:
+
 {% highlight bash %}
 sudo apt-get install build-essential libgd2-xpm-dev openssl libssl-dev xinetd apache2-utils 
 {% endhighlight %}
-Let's install Nagios now.
 
-# Install Nagios Core
+Ya podemos instalar Nagios.
 
-Download the source code for the latest stable release of Nagios Core. Go to the [Nagios-core][Nagios downloads page], and click the Skip to download link below the form. Copy the link address for the latest stable release so you can download it to your Nagios server.
+# Instalar Nagios Core
+Descargaremos el codigo fuente de la última versión estable de Nagios Core. Para ello vamos a [Nagios-core][página web de Nagios], y clickeamos en descargar. Copia la dirección del enlace para poder descargarla desde tu servidor Nagios.
 
 At the time of this writing, the latest stable release is Nagios 4.0.8. Download it to your home directory with curl:
+En nuestro caso, la última estable es la 4.0.8. Nos la descargaremos en nuestro directorio con curl:
+
 {% highlight bash %}
 cd ~
 curl -L -O http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.0.8.tar.gz
 {% endhighlight %}
-Extract the Nagios archive with this command:
+
+
+Estraemos los archivos de nagios:
+
 {% highlight bash %}
 tar xvf nagios-*.tar.gz
 {% endhighlight %}
-Then change to the extracted directory:
+
+Y cambiamos al directorio que acabamos de extraer
+
 {% highlight bash %}
 cd nagios-*
 {% endhighlight %}
-Before building Nagios, we must configure it. If you want to configure it to use postfix (which you can install with apt-get), add -–with-mail=/usr/sbin/sendmail to the following command:
+
+
+Antes de instalar Nagios, debemos de configurarlo. Si quieres configurarlo para usar postfix (puedes descargarlo con apt-get o aptitude) añade 
+``-–with-mail=/usr/sbin/sendmail`` al siguiente comando:
+
 {% highlight bash %}
 ./configure --with-nagios-group=nagios --with-command-group=nagcmd 
 {% endhighlight %}
-Now compile Nagios with this command:
+
+Ahora compilamos Nagios con el comando:
+
 {% highlight bash %}
 make all
 {% endhighlight %}
-Now we can run these make commands to install Nagios, init scripts, and sample configuration files:
+
+Ahora lanzaremos los comandos para instalar Nagios, los scripts de inicio y los ficheros de configuración de ejemplo:
+
 {% highlight bash %}
 sudo make install
 sudo make install-commandmode
@@ -64,61 +83,83 @@ sudo make install-init
 sudo make install-config
 sudo /usr/bin/install -c -m 644 sample-config/httpd.conf /etc/apache2/sites-available/nagios.conf
 {% endhighlight %}
+
 In order to issue external commands via the web interface to Nagios, we must add the web server user, www-data, to the nagcmd group:
+Para poder ejecutar comandos externos por la interfaz web de NAgios, debemos añadir al usuario de Apache ``www-data`` al grupo ``nagcmd`` para que tenga los permisos suficientes:
+
 {% highlight bash %}
 sudo usermod -G nagcmd www-data
 {% endhighlight %}
-# Install Nagios Plugins
 
-Find the latest release of Nagios Plugins here: [Nagios Plugins Download][Nagios-plugins]. Copy the link address for the latest version, and copy the link address so you can download it to your Nagios server.
+# Instalar Nagios Plugins
 
-At the time of this writing, the latest version is Nagios Plugins 2.0.3. Download it to your home directory with curl:
+Encuentra la última versión estable de Nagios Plugins aquí: [Descargar Nagios Plugins][Nagios-plugins]. Copia la dirección para poder descargarla desde el servidor nagios.
+En nuestro caso, la última versión estable es Nagios Plugins 2.0.3. La descargamos en nuestro directorio home con curl:
+
 {% highlight bash %}
 cd ~
 curl -L -O http://nagios-plugins.org/download/nagios-plugins-2.0.3.tar.gz
 {% endhighlight %}
-Extract Nagios Plugins archive with this command:
+
+Estraemos los archivos de Nagios Plugins con el comando:
+
 {% highlight bash %}
 tar xvf nagios-plugins-*.tar.gz
 {% endhighlight %}
-Then change to the extracted directory:
+
+Nos cambiamos a la carpeta de Nagios plugins:
+
 {% highlight bash %}
 cd nagios-plugins-*
 {% endhighlight %}
-Before building Nagios Plugins, we must configure it. Use this command:
+
+Como con Nagios Core, antes debemos configurarlo. Para ello escribimos: 
+
 {% highlight bash %}
 ./configure --with-nagios-user=nagios --with-nagios-group=nagios --with-openssl
 {% endhighlight %}
-Now compile Nagios Plugins with this command:
+
+Ahora compilamos con el comando:
+
 {% highlight bash %}
 make
 {% endhighlight %}
-Then install it with this command:
+
+Y lo instalamos con este otro:
+
 {% highlight bash %}
 sudo make install
 {% endhighlight %}
-# Install NRPE
 
-Find the source code for the latest stable release of NRPE at the [NRPE downloads page][NRPE]. Download the latest version to your Nagios server.
+# Instalar NRPE
 
-At the time of this writing, the latest release is 2.15. Download it to your home directory with curl:
+Puedes encontrar el codigo de la ultima version estable de NRPE en [la página de descargas de NRPE][NRPE]. Descargate la última versión estable apra tu servidor, copiando la url, como en casos anteriores usaremos curl. En nuestro caso, la ultima version estable es la 2.15.
+
 {% highlight bash %}
 cd ~
 curl -L -O http://downloads.sourceforge.net/project/nagios/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
 {% endhighlight %}
-Extract the NRPE archive with this command:
+
+Estraemos los archivos:
+
 {% highlight bash %}
 tar xvf nrpe-*.tar.gz
 {% endhighlight %}
-Then change to the extracted directory:
+
+Nos cambiamos al directorio de nrpe:
+
 {% highlight bash %}
 cd nrpe-*
 {% endhighlight %}
-Configure NRPE with these commands:
+
+Configuramos NRPE con estas opciones. Es muy importante sobre todo las opciones ``--with-ssl`` y ``--with-ssl-lib`` ya que sin estas bien puestas nos dará error y no podremos continuar. La libreria puede variar dependiendo de la arquitectura (x32, x86, ARM)
+
 {% highlight bash %}
 ./configure --enable-command-args --with-nagios-user=nagios --with-nagios-group=nagios --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
 {% endhighlight %}
-Now build and install NRPE and its xinetd startup script with these commands:
+
+Ahora compilamos e instalamos NRPE y añadimos el script de arranque con xinetd. Como no lo tenemos instalado lo instalamos en un momento:
+
 {% highlight bash %}
 make all
 sudo make install
@@ -126,134 +167,176 @@ sudo aptitude install xinetd
 sudo make install-xinetd
 sudo make install-daemon-config
 {% endhighlight %}
-Open the xinetd startup script in an editor:
+
+Abrimos el scrip de arranque de xinetd con el editor que queramos:
+
 {% highlight bash %}
 sudo nano /etc/xinetd.d/nrpe
 {% endhighlight %}
-Modify the only_from line by adding the private IP address of the your Nagios server to the end (substitute in the actual IP address of your server):
+
+Modificamos la linea ``only_form`` añadiendo la IP privada de nuestro servidor nagios o nuestra IP pública si queremos acceder desde fuera:
+
 {% highlight bash %}
 only_from = 127.0.0.1 192.168.1.200
 {% endhighlight %}
-Save and exit. Only the Nagios server will be allowed to communicate with NRPE.
 
-Restart the xinetd service to start NRPE:
+Guardamos y salimos. Ahora solo Nagios server puede comunicarse con NRPE (lo cual aumenta la seguridad).
+Reiniciamos el servicio xinetd para arrancar NRPE:
+
 {% highlight bash %}
 sudo service xinetd restart
 {% endhighlight %}
-Now that Nagios 4 is installed, we need to configure it.
 
-# Configure Nagios
-Now let's perform the initial Nagios configuration. You only need to perform this section once, on your Nagios server.
+Ya tenemos instalado Nagios 4, ahora vamos a configurarlo.
+# Configurando Nagios
+Ahora vamos a crear la configuración inicial de Nagios. 
 
-# Organize Nagios Configuration
+# Organizar la configuración de Nagios
 
-Open the main Nagios configuration file in your favorite text editor. We'll use nano to edit the file:
+Abrimos el fichero principal de configuración de nagios con nuestro editor:
+
 {% highlight bash %}
 sudo nano /usr/local/nagios/etc/nagios.cfg
 {% endhighlight %}
-Now find an uncomment this line by deleting the #:
 
+
+Ahora descomentamos esta linea borrando el #:
+
+{% highlight bash %}
 #cfg_dir=/usr/local/nagios/etc/servers
-Save and exit.
+{% endhighlight %}
 
-Now create the directory that will store the configuration file for each server that you will monitor:
+Guardamos y salimos.
+
+Ahora crearemos el directorio en el que se guardaran los ficheros de cada servidor que queramos monitorizar:
+
 {% highlight bash %}
 sudo mkdir /usr/local/nagios/etc/servers
 {% endhighlight %}
+
 # Configure Nagios Contacts
 
-Open the Nagios contacts configuration in your favorite text editor. We'll use nano to edit the file:
+Abrimos el fichero de configuración de Nagios:
+
 {% highlight bash %}
 sudo nano /usr/local/nagios/etc/objects/contacts.cfg
 {% endhighlight %}
-Find the email directive, and replace its value (the highlighted part) with your own email address:
+
+Encontramos la directiva de email y la reemplazamos por nuestar dirección de email:
+
 {% highlight bash %}
 email                           nagios@finode.com        ; <<***** CHANGE THIS TO YOUR EMAIL ADDRESS ******
 {% endhighlight %}
-Save and exit.
 
-#Configure check_nrpe Command
+Guardamos y salimos.
 
-Let's add a new command to our Nagios configuration:
+# Configurando el commando check_nrpe
+
+Añadiremos un nuevo comando a nuestra configuración de nagios, para ello editamos el fichero:
+
 {% highlight bash %}
 sudo nano /usr/local/nagios/etc/objects/commands.cfg
 {% endhighlight %}
-Add the following to the end of the file:
+
+Y añadimos la siguientes lineas al fichero:
+
 {% highlight bash %}
 define command{
         command_name check_nrpe
         command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
 }
 {% endhighlight %}
-Save and exit. This allows you to use the check_nrpe command in your Nagios service definitions.
 
-#Configure Apache
+Guardamos y cerrramos. Esto te permite usar check_nrpe en tus definiciones de servicios de Nagios.
 
-Enable the Apache rewrite and cgi modules:
+# Congigurando apache Apache
+
+Activamos los modulos de apache rewrite y cgi:
+
 {% highlight bash %}
 sudo a2enmod rewrite
 sudo a2enmod cgi
 {% endhighlight %}
-Use htpasswd to create an admin user, called "nagiosadmin", that can access the Nagios web interface:
+
+Usaremos htpasswd para crear un administrador de usuario, llamado "nagiosadmin", que tendrá el acceso a la interface web de Nagios:
+
 {% highlight bash %}
 sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
 {% endhighlight %}
-Enter a password at the prompt. Remember this password, as you will need it to access the Nagios web interface.
 
-Now create a symbolic link of nagios.conf to the sites-enabled directory:
+Escribe la password. Recuerdala por que la necesitaras para poder acceder a Nagios desde la web.
+Ahora crearemos un enlace simbolico de ``nagios.conf`` a el directorio ``sites-enabled``:
+
 {% highlight bash %}
 sudo ln -s /etc/apache2/sites-available/nagios.conf /etc/apache2/sites-enabled/
 {% endhighlight %}
-Nagios is ready to be started. Let's do that, and restart Apache:
+
+Ahora nagios está listo para arrancar. Arranquemoslo y también Apache (para poder verlo):
+
 {% highlight bash %}
 sudo service nagios start
 sudo service apache2 restart
 {% endhighlight %}
-To enable Nagios to start on server boot, run this command:
+
+Para arrancar Nagios al arrancar el servidor, crearemos un enlace simbolico:
+
 {% highlight bash %}
 sudo ln -s /etc/init.d/nagios /etc/rcS.d/S99nagios
 {% endhighlight %}
-# Optional: Restrict Access by IP Address
-If you want to restrict the IP addresses that can access the Nagios web interface, you will want to edit the Apache configuration file:
+
+# Optional: Restringir el acceso por IP
+
+Si queremos restringir la direcciones IP desde las que queremos acceder a la interfaz web (intranet), tendremos que editar el fichero de configuración de apache:
+
 {% highlight bash %}
 sudo nano /etc/apache2/sites-available/nagios.conf
 {% endhighlight %}
-Find and comment the following two lines by adding # symbols in front of them:
+
+Encuentra y comenta las siguientes dos lineas poniendole el simbolo # delante de ellas.
+
 {% highlight bash %}
 Order allow,deny
 Allow from all
 {% endhighlight %}
-Then uncomment the following lines, by deleting the # symbols, and add the IP addresses or ranges (space delimited) that you want to allow to in the Allow from line:
+
+Ahora descomenta las siguientes lineas, borrando el simbolo # y añade el rango de ip o la ip que quieres que sea permitida.
+
 {% highlight bash %}
 #  Order deny,allow
 #  Deny from all
 #  Allow from 127.0.0.1
 {% endhighlight %}
-As these lines will appear twice in the configuration file, so you will need to perform these steps once more.
 
-Save and exit.
+Estas lineas apareceran varias veces en el fichero de configuración, por lo que tendrá que cambiarlas varias veces.
 
-Now restart Apache to put the change into effect:
+Guardamos y salimos.
+
+Ahora reiniciamos apache para que hagan cambio los efectos:
+
 {% highlight bash %}
 sudo service nagios restart
 sudo service apache2 restart
 {% endhighlight %}
-Nagios is now running, so let's try and log in.
+
+NAgios está ahora funcionando, vmaos a entrar y iniciar sesión en él.
 
 # Accessing the Nagios Web Interface
-Open your favorite web browser, and go to your Nagios server (substitute the IP address or hostname for the highlighted part):
+Abre el navegador y abre tu servidor nagios (sustituye la ip o el nombre del equipo por el tuyo)
+
 {% highlight bash %}
 http://nagios_server_ip/nagios
 {% endhighlight %}
-Because we configured Apache to use htpasswd, you must enter the login credentials that you created earlier. We used "nagiosadmin" as the username:
+
+Debido a que se ha configurado apache para usar htpasswd, debes introducir el usuario y contraseña que hemos creado antes. Recuerda que usamos "nagiosadmin" como usuario
 
 <img src="https://davidduranmartos.github.io/images/autenticacion.PNG"/>
-After authenticating, you will be see the default Nagios home page. Click on the Hosts link, in the left navigation bar, to see which hosts Nagios is monitoring:
+
+
+Después de autenticarte, puedes ver la página por defecto de Nagios. Ahora haga click en Hosts en la parte izquierda de la web para ver los equipos que estás monitorizando.
 
 <img src="https://davidduranmartos.github.io/images/nagios-core.PNG"/>
-As you can see, Nagios is monitoring only "localhost", or itself.
 
-Let's monitor another host with Nagios!
+Como puedes ver funciona perfectamente.
 
 [NRPE]:             http://sourceforge.net/projects/nagios/files/nrpe-2.x/
 [Nagios-plugins]:   http://nagios-plugins.org/download/?C=M;O=D
