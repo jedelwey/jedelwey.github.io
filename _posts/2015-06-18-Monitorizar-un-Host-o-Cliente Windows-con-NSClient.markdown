@@ -11,12 +11,29 @@ En este post, expplicaré como añadir un host o cliente Windows a nuestro nagio
 
 Lo primero que tenemos que hacer es descargarnos la [última versión de NSClient++][NSClient++] de su página web. Una vez descargado el programa, comenzaremos su instalación:
 
+Seleccionamos Ejecutar:
 <img src="https://davidduranmartos.github.io/images/instalador.PNG"/>
+
+Seleccionamos Next:
 <img src="https://davidduranmartos.github.io/images/siguiente.PNG"/>
+
+Aceptamos los terminos y le damos a next:
 <img src="https://davidduranmartos.github.io/images/acepto-siguiente.PNG"/>
+
+Seleccionamos la instalación Typical y le damos a next:
 <img src="https://davidduranmartos.github.io/images/no-tocar-siguiente.PNG"/>
+
+Aquí es muy importante hacer algunos cambios:
+    -Añadir la dirección IP del servidor Nagios en ``Allowed_host``
+    -``Enable common check plugins para tener los check más comunes
+    -``Enable nsclient server (check_nt)`` para poder hacer checks de windows como el uptime, la cpu, procesos, memoria, etc.
+    -``Enable NRPE server (check_nrpe)`` y seleccionar la opción ``Insecure legacy mde (required by old check_nrpe)``
 <img src="https://davidduranmartos.github.io/images/crear-esta-configuracion.PNG"/>
+
+Y procedemos a darle a Install para que se lleve a cabo la instalación con los parametros acordados.
 <img src="https://davidduranmartos.github.io/images/install.PNG"/>
+
+Una vez acabada la instalación solo tendremos que darle a Finish y se cerrará el instalador.
 <img src="https://davidduranmartos.github.io/images/finish.PNG"/>
 
 Con esto ya tendremos instalado el cliente, ahora hay que hacer una pequeña modificación de servicio ``NSClient++ (x64)`` para  que al iniciar sesión actute con una cuenta del sistema y ``Permitir que el servicio interactúe con el escritorio``
