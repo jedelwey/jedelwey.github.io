@@ -28,11 +28,20 @@ Seleccionamos la instalación Typical y le damos a next:
 <img src="https://davidduranmartos.github.io/images/no-tocar-siguiente.PNG"/>
 
 Aquí es muy importante hacer algunos cambios:
-    - Añadir la dirección IP del servidor Nagios en ``Allowed_host``
-    - ``Enable common check plugins para tener los check más comunes
-    - ``Enable nsclient server (check_nt)`` para poder hacer checks de windows como el uptime, la cpu, procesos, memoria, etc.
-    - ``Enable NRPE server (check_nrpe)`` y seleccionar la opción ``Insecure legacy mde (required by old check_nrpe)``
-    
+<ul>
+    <li>
+    Añadir la dirección IP del servidor Nagios en ``Allowed_host``
+    </li>
+    <li>
+    ``Enable common check plugins para tener los check más comunes
+    </li>
+    <li>
+    ``Enable nsclient server (check_nt)`` para poder hacer checks de windows como el uptime, la cpu, procesos, memoria, etc.
+    </li>
+    <li>
+    ``Enable NRPE server (check_nrpe)`` y seleccionar la opción ``Insecure legacy mde (required by old check_nrpe)``
+    </li>
+</ul>
 <img src="https://davidduranmartos.github.io/images/crear-esta-configuracion.PNG"/>
 
 Y procedemos a darle a Install para que se lleve a cabo la instalación con los parametros acordados.
