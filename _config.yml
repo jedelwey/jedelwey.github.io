@@ -7,7 +7,7 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://jedelwey.com" # the base hostname & protocol for your site
 twitter_username: jedelwey
-github_username:  davidduranmartos
+github_username:  jedelwey
 
 # Build settings
 markdown: kramdown
