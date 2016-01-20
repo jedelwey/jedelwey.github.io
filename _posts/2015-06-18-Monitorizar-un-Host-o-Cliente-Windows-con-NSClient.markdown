@@ -13,19 +13,19 @@ Lo primero que tenemos que hacer es descargarnos la [última versión de NSClien
 
 Seleccionamos Ejecutar:
 
-<img src="https://davidduranmartos.github.io/images/instalador.PNG"/>
+<img src="https://jedelwey.github.io/images/instalador.PNG"/>
 
 Seleccionamos Next:
 
-<img src="https://davidduranmartos.github.io/images/siguiente.PNG"/>
+<img src="https://jedelwey.github.io/images/siguiente.PNG"/>
 
 Aceptamos los terminos y le damos a next:
 
-<img src="https://davidduranmartos.github.io/images/acepto-siguiente.PNG"/>
+<img src="https://jedelwey.github.io/images/acepto-siguiente.PNG"/>
 
 Seleccionamos la instalación Typical y le damos a next:
 
-<img src="https://davidduranmartos.github.io/images/no-tocar-siguiente.PNG"/>
+<img src="https://jedelwey.github.io/images/no-tocar-siguiente.PNG"/>
 
 Aquí es muy importante hacer algunos cambios:
 <ul>
@@ -42,25 +42,25 @@ Aquí es muy importante hacer algunos cambios:
     ``Enable NRPE server (check_nrpe)`` y seleccionar la opción ``Insecure legacy mde (required by old check_nrpe)``
     </li>
 </ul>
-<img src="https://davidduranmartos.github.io/images/crear-esta-configuracion.PNG"/>
+<img src="https://jedelwey.github.io/images/crear-esta-configuracion.PNG"/>
 
 Y procedemos a darle a Install para que se lleve a cabo la instalación con los parametros acordados.
 
-<img src="https://davidduranmartos.github.io/images/install.PNG"/>
+<img src="https://jedelwey.github.io/images/install.PNG"/>
 
 Una vez acabada la instalación solo tendremos que darle a Finish y se cerrará el instalador.
 
-<img src="https://davidduranmartos.github.io/images/finish.PNG"/>
+<img src="https://jedelwey.github.io/images/finish.PNG"/>
 
 Con esto ya tendremos instalado el cliente, ahora hay que hacer una pequeña modificación de servicio ``NSClient++ (x64)`` para  que al iniciar sesión actute con una cuenta del sistema y ``Permitir que el servicio interactúe con el escritorio``
 
 Para ello abriremos servicios, una manera de abrirlo es pulsar el botón de inicio y escribir ``servicios`` como se puede ver en la imagen sale como primera opcion:
 
-<img src="https://davidduranmartos.github.io/images/servicios.PNG"/>
+<img src="https://jedelwey.github.io/images/servicios.PNG"/>
 
 Buscamos dentros de los servicios el servicio ``NSClient++ (x64)`` (puede variar si el equipo es x86) y lo abrimos. Nos vamos a la pestaña de Iniciar sesión y dejamos marcado la opción: ``Permitir que el servicio interactúe con el escritorio``
 
-<img src="https://davidduranmartos.github.io/images/permitir.PNG"/>
+<img src="https://jedelwey.github.io/images/permitir.PNG"/>
 
 Aplicamos, aceptamos y cerramos todo. Ya tenemos todo instalado en nuestro cliente, ahora falta añadir el host en el servidor.
 
