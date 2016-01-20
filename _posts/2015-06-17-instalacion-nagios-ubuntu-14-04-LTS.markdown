@@ -329,12 +329,12 @@ http://nagios_server_ip/nagios
 
 Debido a que se ha configurado apache para usar htpasswd, debes introducir el usuario y contraseña que hemos creado antes. Recuerda que usamos "nagiosadmin" como usuario
 
-<img src="https://davidduranmartos.github.io/images/autenticacion.PNG"/>
+<img src="https://jedelwey.github.io/images/autenticacion.PNG"/>
 
 
 Después de autenticarte, puedes ver la página por defecto de Nagios. Ahora haga click en Hosts en la parte izquierda de la web para ver los equipos que estás monitorizando.
 
-<img src="https://davidduranmartos.github.io/images/nagios-core.PNG"/>
+<img src="https://jedelwey.github.io/images/nagios-core.PNG"/>
 
 Como puedes ver funciona perfectamente.
 
