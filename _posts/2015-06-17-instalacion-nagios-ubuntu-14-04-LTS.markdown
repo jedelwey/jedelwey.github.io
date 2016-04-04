@@ -237,4 +237,4 @@ sudo service apache2 stop
 sudo service apache2 start
 {% endhighlight %}
 
-Nagios está ahora funcionando, vmaos a entrar y iniciar sesión en él.
+Nagios está ahora funcionando, vamos a entrar y iniciar sesión en él.
