@@ -193,28 +193,47 @@ Como puedes ver funciona perfectamente.
 Instalamos por la linea de consola
 
 {% highlight bash %}
-sudo aptitude install nagios-nrpe-server nagios-nrpe-plugin
+wget http://sourceforge.net/projects/nagios/files/nrpe-2.x/nrpe-2.15/nrpe-2.15.tar.gz
+tar xzf nrpe-*.tar.gz
+cd nrpe-*/
 {% endhighlight %}
-
-# Configurando el commando check_nrpe
-
-Añadiremos un nuevo comando a nuestra configuración de nagios, para ello editamos el fichero:
 
 {% highlight bash %}
-sudo nano /usr/local/nagios/etc/objects/commands.cfg
+./configure --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu 
+sudo make all 
+sudo make install-plugin 
+sudo make install-daemon 
+sudo make install-daemon-config
 {% endhighlight %}
-
-Y añadimos la siguientes lineas al fichero:
 
 {% highlight bash %}
-define command{
-        command_name check_nrpe
-        command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
-}
+make install-xinetd
 {% endhighlight %}
 
-Guardamos y cerrramos. Esto te permite usar check_nrpe en tus definiciones de servicios de Nagios.
+Editamos /etc/xinetd.d/nrpe y añadimos la IP del servidor donde esta instalado el Nagios:
 
+{% highlight bash %}
+only_from = 127.0.0.1,Servidor_Nagios_IP
+{% endhighlight %}
+Añadimos la siguiente entrada para el NRPE en el /etc/services:
+{% highlight bash %}
+nrpe            5666/tcp                        # NRPE
+{% endhighlight %}
+Reiniciamos el xinetd y la red:
+{% highlight bash %}
+sudo service xinetd restart # service networking restart
+{% endhighlight %}
+Comprobamos que este funcionando correctamente:
+
+{% highlight bash %}
+netstat -at | grep nrpe tcp 0 0 *:nrpe *:* LISTEN
+{% endhighlight %}
+
+Comprobamos que funcione correctamente el NRPE:
+
+{% highlight bash %}
+sudo /usr/local/nagios/libexec/check_nrpe -H localhost NRPE v2.15
+{% endhighlight %}
 # Instalar Nagios Plugins
 
 Encuentra la última versión estable de Nagios Plugins aquí: [Descargar Nagios Plugins][Nagios-plugins]. Copia la dirección para poder descargarla desde el servidor nagios.
@@ -223,6 +242,7 @@ En nuestro caso, la última versión estable es Nagios Plugins 2.0.3. La descarg
 {% highlight bash %}
 cd ~
 curl -L -O http://nagios-plugins.org/download/nagios-plugins-2.0.3.tar.gz
+wget http://nagios-plugins.org/download/nagios-plugins-2.1.1.tar.gz
 {% endhighlight %}
 
 Estraemos los archivos de Nagios Plugins con el comando:
@@ -246,7 +266,7 @@ Como con Nagios Core, antes debemos configurarlo. Para ello escribimos:
 Ahora compilamos con el comando:
 
 {% highlight bash %}
-make
+sudo make
 {% endhighlight %}
 
 Y lo instalamos con este otro:
