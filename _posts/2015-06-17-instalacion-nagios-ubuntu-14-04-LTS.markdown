@@ -31,7 +31,7 @@ sudo apt-get update
 Y ahora instalamos los paquetes requeridos:
 
 {% highlight bash %}
-sudo apt-get install build-essential sendemail libssl-dev apache2-utils xinetd libgd2-xpm-dev unzip
+sudo apt-get install build-essential sendemail libssl-dev apache2-utils xinetd libgd2-xpm-dev unzip snmp
 {% endhighlight %}
 
 Ya podemos instalar Nagios.
